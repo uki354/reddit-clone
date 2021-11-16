@@ -13,6 +13,9 @@ import com.example.redditclone.repository.VerificationTokenRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.stereotype.Service;
@@ -88,5 +91,14 @@ public class AuthService {
                 .authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername(),loginRequest.getPassword()));
 
 
+    }
+
+    public User getCurrentUser(){
+//        org.springframework.security.core.userdetails.User user =
+//                (org.springframework.security.core.userdetails.User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//        System.out.println(user.getUsername());
+        Authentication loggedInUser = SecurityContextHolder.getContext().getAuthentication();
+        String username = loggedInUser.getName();
+        return userRepository.findByUsername(username).orElseThrow(()->new RedditCloneException("User not found "));
     }
 }

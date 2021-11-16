@@ -25,7 +25,7 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter {
     public static final String AUTH_URL = "/api/auth/";
 
     private final UserDetailsService userDetailsService;
-    private  final JWTService jwtService;
+    private final JWTService jwtService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
 
