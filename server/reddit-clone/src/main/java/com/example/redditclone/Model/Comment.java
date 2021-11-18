@@ -19,6 +19,7 @@ public class Comment {
     @ManyToOne
     private User user;
     @ManyToOne
+    @JoinColumn(name = "post_id")
     private Post post;
     @Lob
     private String content;

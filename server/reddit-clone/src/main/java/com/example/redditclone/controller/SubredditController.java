@@ -28,7 +28,7 @@ public class SubredditController {
 
     @GetMapping("/subreddit/{name}")
     public ResponseEntity<SubredditDTO> findSubreddit(@PathVariable String name){
-        return new ResponseEntity<>( subredditService.getSubreddit(name), HttpStatus.OK);
+        return new ResponseEntity<>( subredditService.getSubredditDTO(name), HttpStatus.OK);
 
     }
 

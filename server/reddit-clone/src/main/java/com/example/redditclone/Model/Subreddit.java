@@ -27,7 +27,9 @@ public class Subreddit {
     private String  description;
     @ManyToOne
     private User user;
-    @OneToMany
+    @OneToMany(mappedBy = "subreddit",
+            cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY)
     private List<Post> posts;
 
 

@@ -17,7 +17,7 @@ public class SubredditDTO {
 
     private String name;
     private String description;
-    private List<Post> posts;
+//    private List<PostDTO> posts;
     private String owner;
 
 }
