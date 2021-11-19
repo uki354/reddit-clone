@@ -8,6 +8,7 @@ import com.example.redditclone.dto.PostDTO;
 import com.example.redditclone.repository.PostRepository;
 
 import com.ocpsoft.pretty.time.PrettyTime;
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.data.domain.PageRequest;
@@ -21,7 +22,7 @@ import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 @Service
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class PostServiceImpl implements PostService{
 
     private final PostRepository postRepository;
