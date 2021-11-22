@@ -19,8 +19,19 @@ public class RoleServiceImpl  implements RoleService{
 
     @Override
     public Role getUserRole() {
-        return roleRepository.findByName(ROLE_USER).orElseThrow(
-                ()-> new RedditCloneException("Role not found " +  ROLE_USER)
-        );
+        try {
+            return roleRepository.findByName(ROLE_USER).orElseThrow(
+                    () -> new RedditCloneException("Role not found " + ROLE_USER)
+            );
+        }catch (RedditCloneException e){
+            userRoleInit();
+            return getUserRole();
+        }
+    }
+
+    private void userRoleInit(){
+        Role role = new Role();
+        role.setName(ROLE_USER);
+        roleRepository.save(role);
     }
 }

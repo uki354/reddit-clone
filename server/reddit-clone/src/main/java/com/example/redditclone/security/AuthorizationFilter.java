@@ -28,6 +28,7 @@ public class AuthorizationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         if (request.getServletPath().startsWith(SecurityConfig.AUTH_URL)){
             filterChain.doFilter(request,response);
+            System.out.println("Should be here?");
 
         }else{
 
@@ -46,6 +47,8 @@ public class AuthorizationFilter extends OncePerRequestFilter {
                     SecurityContextHolder.getContext().setAuthentication(authenticationToken);
                     filterChain.doFilter(request, response);
                 }catch (Exception e){
+                    e.printStackTrace();
+                    System.out.println("Well should not be here");
                     response.sendError(HttpStatus.FORBIDDEN.value());
 
                 }

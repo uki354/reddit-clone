@@ -1,5 +1,6 @@
 package com.example.redditclone;
 
+import com.ocpsoft.pretty.time.PrettyTime;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -19,5 +20,7 @@ public class RedditCloneApplication {
 	 BCryptPasswordEncoder passwordEncoder(){
 		return new BCryptPasswordEncoder();
 	}
+	@Bean
+	PrettyTime prettyTime(){return  new PrettyTime();}
 
 }
