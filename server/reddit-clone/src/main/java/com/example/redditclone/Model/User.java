@@ -1,5 +1,6 @@
 package com.example.redditclone.Model;
 
+import com.example.redditclone.anotation.ValidImage;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -26,6 +27,8 @@ public class User {
     private boolean isEnabled;
     @ManyToMany(fetch = FetchType.EAGER)
     private Collection<Role> roles;
+    @Lob
+    private byte[] image;
 
 
 

@@ -1,12 +1,15 @@
 package com.example.redditclone;
 
+import com.example.redditclone.utility.DateUtility;
 import com.ocpsoft.pretty.time.PrettyTime;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
+
+import java.util.Date;
 
 @SpringBootApplication
 @EnableAsync
@@ -17,10 +20,27 @@ public class RedditCloneApplication {
 	}
 
 	@Bean
-	 BCryptPasswordEncoder passwordEncoder(){
+	BCryptPasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
+
 	@Bean
-	PrettyTime prettyTime(){return  new PrettyTime();}
+	PrettyTime prettyTime() {
+		return new PrettyTime();
+	}
+	@Bean
+	DateUtility dateUtility(){return new DateUtility();}
+
+	@Bean
+	CommandLineRunner commandLineRunner(DateUtility dateUtility){
+		return (args -> {
+			System.out.println(DateUtility.FAR_PAST);
+			System.out.println(DateUtility.FAR_FUTURE);
+		});
+
+	}
 
 }
+
+
+

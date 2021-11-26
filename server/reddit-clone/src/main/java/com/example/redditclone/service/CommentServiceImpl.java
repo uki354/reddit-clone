@@ -37,6 +37,9 @@ public class CommentServiceImpl implements CommentService{
 
     @Override
     public void createComment(CommentDTO commentDTO) {
+        Post post = postService.getPost(commentDTO.getPostId());
+        post.setCommentCount(post.getCommentCount() + 1);
+        postService.savePost(post);
         commentRepository.save(mapToComment(commentDTO));
     }
 

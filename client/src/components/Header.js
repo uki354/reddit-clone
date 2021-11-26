@@ -15,6 +15,7 @@ import Button from "./Button";
 import {useState,useContext} from 'react';
 import AuthModalContext from "./AuthModalContext";
 import UserContext from "./UserContext";
+import axios from "axios";
 
 function Header() {
   const [userDropdownVisibilityClass,setUserDropdownVisibilityClass] = useState('hidden');
@@ -27,6 +28,14 @@ function Header() {
   }
   const authModal = useContext(AuthModalContext);
   const user = useContext(UserContext);
+  function nesto(){
+    
+    // Simple GET request using axios
+    axios.get('http://localhost:8080/api/auth/users')
+        .then(response => console.log("radi" + response.data[0].username));
+
+
+}
   return (
     <header className="w-full bg-reddit_dark p-2">
       <div className="mx-4 flex relative">
@@ -52,13 +61,13 @@ function Header() {
 
         {!user.username && (
           <div className="mx-2 hidden sm:block">
-            <Button outline={1} className="mr-1 h-8" onClick={() => authModal.setShow('login')}>Log In</Button>
+            <Button outline={1} className="mr-1 h-8" onClick={() => nesto()}>Log In</Button>
             <Button className="h-8" onClick={() => authModal.setShow('register')}>Sign Up</Button>
           </div>
         )}
 
         <ClickOutHandler onClickOut={() => setUserDropdownVisibilityClass('hidden')}>
-          <button className="rounded-md flex ml-4 border border-gray-700" onClick={() => toggleUserDropdown()}>
+          <button className="rounded-md flex ml-4 border border-gray-700" onClick={nesto()}>
             {!user.username && (
               <UserIcon className="w-6 h-6 text-gray-400 m-1" />
             )}

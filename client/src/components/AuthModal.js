@@ -20,11 +20,12 @@ function AuthModal() {
     setModalType(modalContext.show);
   }
 
+  //register
   function register(e) {
     e.preventDefault();
     const data = {email,username,password};
-    axios.post('http://localhost:4000/register', data, {withCredentials:true})
-      .then(() => {
+    axios.post('http://localhost:8080/api/auth/signup', data, {withCredentials:true})
+      .then(()=> {
         user.setUser({username});
         modalContext.setShow(false);
         setEmail('');
@@ -35,8 +36,9 @@ function AuthModal() {
 
   function login() {
     const data = {username,password};
-    axios.post('http://localhost:4000/login', data, {withCredentials:true})
+    axios.post('http://localhost:8080/api/auth/login', data, {withCredentials:true})
 	  .then(() => {
+      console.log(" logged in")
 	    modalContext.setShow(false);
 	    user.setUser({username})
 	  });

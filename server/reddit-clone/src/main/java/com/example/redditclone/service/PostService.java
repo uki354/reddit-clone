@@ -14,7 +14,9 @@ public interface PostService {
     Post getPost(int id);
     Post getPost(PostDTO postDTO);
     PostDTO getPostDTO(int id);
-    List<PostDTO> getPostDTOsForSubreddit(String name, int offset, int limit);
+    List<PostDTO> getPostDTOsForSubreddit(String name, int page, String filter);
     void savePost(Post post);
+    List<PostDTO> getPostDTOsForUser(String username, int page, String sort);
+    List<PostDTO> getLatestPostDTOsForSubreddit(String  name, int page);
 
 }

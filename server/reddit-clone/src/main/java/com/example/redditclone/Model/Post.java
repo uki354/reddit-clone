@@ -33,7 +33,11 @@ public class Post {
             cascade = CascadeType.ALL,
             fetch = FetchType.LAZY)
     private List<Comment> comments;
-    private Integer voteCount;
+    @ColumnDefault(value = "0")
+    private int voteCount;
+    @ColumnDefault(value = "0")
+    private int commentCount;
+
 
 
 
