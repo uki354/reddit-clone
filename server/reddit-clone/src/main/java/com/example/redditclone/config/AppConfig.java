@@ -1,4 +1,4 @@
-package com.example.redditclone;
+package com.example.redditclone.config;
 
 
 import lombok.Data;

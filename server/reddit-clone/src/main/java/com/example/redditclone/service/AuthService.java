@@ -1,14 +1,12 @@
 package com.example.redditclone.service;
 
-import com.example.redditclone.AppConfig;
+import com.example.redditclone.config.AppConfig;
 import com.example.redditclone.Model.NotificationEmail;
-import com.example.redditclone.Model.Role;
 import com.example.redditclone.Model.User;
 import com.example.redditclone.Model.VerificationToken;
 import com.example.redditclone.dto.LoginRequest;
 import com.example.redditclone.dto.RegisterRequest;
 import com.example.redditclone.exception.RedditCloneException;
-import com.example.redditclone.repository.RoleRepository;
 import com.example.redditclone.repository.UserRepository;
 import com.example.redditclone.repository.VerificationTokenRepository;
 import lombok.AllArgsConstructor;
@@ -16,9 +14,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
