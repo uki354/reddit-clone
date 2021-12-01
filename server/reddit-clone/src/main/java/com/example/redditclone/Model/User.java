@@ -4,6 +4,7 @@ import com.example.redditclone.anotation.ValidImage;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.context.annotation.Profile;
 
 import javax.persistence.*;
 import java.util.Collection;
@@ -13,6 +14,7 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@Table(name = "reddit_user")
 public class User {
 
     @Id

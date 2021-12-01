@@ -157,5 +157,7 @@
     <orderEntry type="library" name="Maven: org.webjars:swagger-ui:3.52.5" level="project" />
     <orderEntry type="library" name="Maven: org.webjars:webjars-locator-core:0.46" level="project" />
     <orderEntry type="library" name="Maven: com.ocpsoft:ocpsoft-pretty-time:1.0.7" level="project" />
+    <orderEntry type="library" name="Maven: org.postgresql:postgresql:42.3.1" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Maven: org.checkerframework:checker-qual:3.5.0" level="project" />
   </component>
 </module>

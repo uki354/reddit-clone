@@ -1,5 +1,6 @@
 package com.example.redditclone.service;
 
+import com.example.redditclone.AppConfig;
 import com.example.redditclone.Model.NotificationEmail;
 import com.example.redditclone.Model.Role;
 import com.example.redditclone.Model.User;
@@ -35,6 +36,7 @@ public class AuthService {
     private final AuthenticationManager authenticationManager;
     private final RoleService roleService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final AppConfig appConfig;
 
 
     public void signUp(RegisterRequest registerRequest){
@@ -55,7 +57,8 @@ public class AuthService {
         String token = generateVerificationToken(user);
         mailService.sendEmail(new NotificationEmail("Activation for Reddit Clone", user.getEmail(),
                             "Thank you for using our platform, please click on url to activate you account: "
-                                + "http://localhost:8080/api/auth/accountVerification/" +  token));
+                                + appConfig.getUrl() + "/api/auth/accountVerification/" +  token));
+
 
     }
 
