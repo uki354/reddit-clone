@@ -31,14 +31,7 @@ public class RedditCloneApplication {
 	@Bean
 	DateUtility dateUtility(){return new DateUtility();}
 
-	@Bean
-	CommandLineRunner commandLineRunner(DateUtility dateUtility){
-		return (args -> {
-			System.out.println(DateUtility.FAR_PAST);
-			System.out.println(DateUtility.FAR_FUTURE);
-		});
 
-	}
 
 }
 

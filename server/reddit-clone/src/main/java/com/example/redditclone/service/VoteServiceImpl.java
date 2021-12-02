@@ -1,5 +1,6 @@
 package com.example.redditclone.service;
 
+import com.example.redditclone.Model.NotificationType;
 import com.example.redditclone.Model.Post;
 import com.example.redditclone.Model.Vote;
 import com.example.redditclone.Model.VoteType;
@@ -20,6 +21,7 @@ public class VoteServiceImpl implements VoteService {
     private final VoteRepository voteRepository;
     private final PostService postService;
     private final AuthService authService;
+    private final NotificationServiceImpl notificationService;
 
 
     @Override
@@ -31,10 +33,14 @@ public class VoteServiceImpl implements VoteService {
         }
         if (VoteType.UPVOTE.equals(voteDTO.getVoteType())){
             post.setVoteCount(post.getVoteCount() + 1);
+            notificationService.saveNotification(authService.getCurrentUser(), post.getUser(), NotificationType.LIKE_POST, post);
         }else post.setVoteCount(post.getVoteCount() -1);
-
+        Vote vote = mapToVote(voteDTO,post);
+        System.out.println(vote.getVoteType());
         voteRepository.save(mapToVote(voteDTO,post));
         postService.savePost(post);
+
+
 
     }
 
