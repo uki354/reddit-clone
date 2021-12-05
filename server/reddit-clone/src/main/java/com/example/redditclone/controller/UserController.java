@@ -36,5 +36,10 @@ public class UserController {
         return new ResponseEntity<>(userService.getUserDTO(username), HttpStatus.OK);
     }
 
+    @GetMapping("/")
+    public ResponseEntity<UserDTO> getLoggedUser(){
+        return new ResponseEntity<>(userService.getLoggedUser(),HttpStatus.OK);
+    }
+
 
 }

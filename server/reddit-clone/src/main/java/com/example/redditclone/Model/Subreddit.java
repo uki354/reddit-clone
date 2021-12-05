@@ -25,12 +25,19 @@ public class Subreddit {
     private Date createdAt;
     @Lob
     private String  description;
+    @Lob
+    private byte[] profileImage;
+    @Lob
+    private byte[] coverImage;
     @ManyToOne
     private User user;
     @OneToMany(mappedBy = "subreddit",
             cascade = CascadeType.ALL,
             fetch = FetchType.LAZY)
     private List<Post> posts;
+    @ManyToMany
+    private List<User> joinedUsers;
+
 
 
 

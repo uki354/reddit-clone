@@ -12,6 +12,7 @@ public interface UserService {
     User findUser(String username);
     void setUserImage(MultipartFile multipartFile);
     UserDTO getUserDTO(String username);
+    UserDTO getLoggedUser();
 
 
 

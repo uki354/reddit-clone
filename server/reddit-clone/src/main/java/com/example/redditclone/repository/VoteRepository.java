@@ -1,5 +1,6 @@
 package com.example.redditclone.repository;
 
+import com.example.redditclone.Model.Comment;
 import com.example.redditclone.Model.Post;
 import com.example.redditclone.Model.User;
 import com.example.redditclone.Model.Vote;
@@ -12,4 +13,5 @@ import java.util.Optional;
 public interface VoteRepository extends JpaRepository<Vote, Integer> {
 
     Optional<Vote> findTopByPostAndUserOrderByIdDesc(Post post, User user);
+    Optional<Vote> findTopByCommentAndUserOrderByIdDesc(Comment comment, User user);
 }

@@ -25,5 +25,6 @@ public class Comment {
     private Post post;
     @Lob
     private String content;
+    private int voteCount;
 
 }

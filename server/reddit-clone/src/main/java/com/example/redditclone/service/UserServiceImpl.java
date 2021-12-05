@@ -5,6 +5,9 @@ import com.example.redditclone.dto.UserDTO;
 import com.example.redditclone.exception.RedditCloneException;
 import com.example.redditclone.repository.UserRepository;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -12,14 +15,17 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.Base64;
 
 import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class UserServiceImpl implements UserService{
 
 
     private final UserRepository userRepository;
     private final AuthService authService;
+    @Autowired @Lazy
+    private  SubredditService subredditService;
 
 
     @Override
@@ -32,7 +38,6 @@ public class UserServiceImpl implements UserService{
     public void setUserImage(MultipartFile multipartFile) {
         try {
             User user = authService.getCurrentUser();
-            System.out.println(multipartFile.getContentType());
             user.setImage(multipartFile.getBytes());
             userRepository.save(user);
         }catch (Exception exception){
@@ -47,6 +52,11 @@ public class UserServiceImpl implements UserService{
 
     }
 
+    @Override
+    public UserDTO getLoggedUser(){
+        return mapToDTO(authService.getCurrentUser());
+    }
+
     private UserDTO mapToDTO(User user){
         return UserDTO.builder()
                 .username(user.getUsername())
@@ -55,6 +65,8 @@ public class UserServiceImpl implements UserService{
                 .email(user.getEmail())
                 .image(Base64.getEncoder().encodeToString(user.getImage()))
                 .cakeDay(user.getCreatedAt().toString())
+                .joinedSubs(user.getJoinedSubreddits().stream().map(subreddit ->
+                        subredditService.mapToDTO(subreddit)).collect(Collectors.toList()))
                 .build();
     }
 
