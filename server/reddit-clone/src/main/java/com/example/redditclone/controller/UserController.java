@@ -18,7 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 @Validated
 @RestController
 @AllArgsConstructor
-@RequestMapping("/user")
+@RequestMapping("/api/user")
 public class UserController {
 
     private final UserService userService;
@@ -34,6 +34,11 @@ public class UserController {
     @GetMapping("/{username}")
     public ResponseEntity<UserDTO> getUser(@PathVariable String username){
         return new ResponseEntity<>(userService.getUserDTO(username), HttpStatus.OK);
+    }
+
+    @GetMapping("/")
+    public ResponseEntity<UserDTO> getLoggedUser(){
+        return new ResponseEntity<>(userService.getLoggedUser(),HttpStatus.OK);
     }
 
 

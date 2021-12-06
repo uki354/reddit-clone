@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentation</title>
+
+    <style>
+        /* fonts */
+        @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap');
+
+        .code-text {
+            font-family: 'Share Tech Mono', monospace;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6,
+        strong,
+        p {
+            font-family: 'Open Sans', sans-serif;
+        }
+
+
+        ul {
+            list-style: none;
+        }
+    </style>
+</head>
+
+<body style="background-color: #ececec">
+
+    <div style="width: 85%; margin: auto">
+    <header>
+        <h1>Documentation</h1>
+    </header> <!-- HEADER END -->
+    <a th:href="@{/api/auth/docs.html}" style="float: right; color: green; text-decoration: none"><p>Swagger docs</p></a>
+    <h3>Test user: </h3>
+            <p class="code-text">username: test</p>
+            <p class="code-text">password: 123</p>
+    </div>
+
+
+    <main style="width: 80%; margin: auto; background-color: #e2e2e2">
+
+        <!-- documentation's list starts here -->
+        <ul>
+            <li>
+                <h2>
+                    Authentication & Authorization
+                </h2>
+                <ul>
+                    <li>
+                        <h3> sign up - /api/auth/signup</h3>
+                        <p>
+                            Only unauthoriazed access resources are mapped as /api/auth. Having that in mind, signinup
+                            is
+                            pretty straight forward.
+                            It requires simple json object as shown below. After sucessful signing up. Client recieves
+                            code
+                            201 - created.
+                            And will be required to enable account by sending request to specific url
+                            /api/auth/accountVerification/{token}.
+                            Token can be obtained from mail which user provided in request for sign up.
+                        </p>
+                        <p class="code-text">
+                            {
+                            "firstname": String", <br>
+                            "lastname": String,<br>
+                            "username": String,<br>
+                            "password": String,<br>
+                            "email": String
+                            }
+
+                        </p>
+                    </li>
+                    <li>
+                        <h3>login - /api/auth/login</h3>
+                        <p>
+                            Requires username and password authentication. After which client gets two tokens. Access
+                            token
+                            that can be used for
+                            authorization for other resources. Access token have 10 min expaire time. And will be asked
+                            to
+                            renew it once it
+                            expires.
+                            For that, clients usess second token, refresh token. It has much more expaire time, 6
+                            months.
+                            Once access token
+                            expaires
+                            client can provide that access token with refresh token to the /api/auth/refresh and will
+                            recive
+                            both new access
+                            token and
+                            refresh token which will invalidate older ones.
+                        </p>
+                        <ul>
+                            <li>
+                                <h4> 1.Request login </h4>
+                                <p class="code-text">
+                                    {<br>
+                                    "username": "String",<br>
+                                    "password": "String"<br>
+                                    }<br>
+                                    2.Response login<br>
+                                    {<br>
+                                    "acess_token": "j.w.t"<br>
+                                    "refresh_token": "j.w.t"<br>
+                                    }
+
+                                </p>
+                            </li>
+                            <li>
+                                <h4> 1. Refresh request </h4>
+                                <p class="code-text">
+                                    {<br>
+                                    "acess_token": "j.w.t"<br>
+                                    "refresh_token": "j.w.t"<br>
+                                    }
+
+                                </p>
+                            </li>
+                            <li>
+                                <h4> 2. Refresh Response </h4>
+                                <p class="code-text">
+                                    {<br>
+                                    "acess_token": "j.w.t" //new<br>
+                                    "refresh_token": "j.w.t" // new<br>
+                                    }
+
+                                </p>
+                            </li>
+                            <li>
+                                <strong> NOTE: From this point on, every request will have to have authorization header
+                                    in
+                                    request with key bearer [jwt]!</strong>
+                            </li>
+                        </ul>
+                    </li> <!-- login - /api/auth/login END -->
+                </ul>
+            </li><!-- sign up - /api/auth/signup END -->
+
+            <li>
+                <h2>Subreddit</h2>
+                <h3>creating subreddit - /api/newsub/ POST</h3>
+
+                <h4> Request requires three parts.</h4>
+                <ul>
+                    <li>
+
+                        <p>
+                            <strong>First one</strong> is data basic data about subreddit being created. Owner of the
+                        </p>
+                        <p class="code-text"> subreddit
+                            will be logged in user who
+                            makes request.
+                            Key: data value: json object<br>
+                            {<br>
+                            "name": "String",<br>
+                            "description": "String"<br>
+                            }<br>
+                        </p>
+                    </li>
+                    <li>
+                        <p> <strong>Second and third</strong> are images instead that will be used for profile/cover of
+                            the
+                            given subreddit. Acceptable types
+                            : jpg/png/jpeg
+                            Key: profile Value: image
+                            Key: cover Value:Image
+                        </p>
+                    </li>
+                    <li>
+                        <p>
+                            existing subreddit profile/cover - /api/edit/profile/{name} or /api/edit/cover/{name} PUT
+                            Name variable is associeted with existing subreddit. Request is also key/value pair type.
+                            Key: "profile/cover" Value: "image"
+                        </p>
+                    </li>
+                    <li>
+                        <p>
+                            Get subreddit - /api/subreddit/{name} GET
+                            Name is associeted with name of existing subreddit.
+                        </p>
+                        <p class="code-text">
+                            Response:<br>
+                            {<br>
+                            "name": "String",<br>
+                            "description", "Description"<br>
+                            "owner": "String",<br>
+                            "memberCount": "int"<br>
+                            }
+                        </p>
+                    </li>
+                    <li>
+                        <p>
+                            Get all subreddit user owns - /subreddit/user/{name} GET
+                            Name is associeted with name of existing user. Response is list of all subreddits specifed
+                            user
+                            owns.
+                        </p>
+                        <p class="code-text">
+                            Response:<br>
+                            {[<br>
+                            "name": "String",<br>
+                            "description", "String"<br>
+                            "owner": "String",<br>
+                            "memberCount": "int"<br>
+                            ]}
+                        </p>
+                    </li>
+                    <li>
+                        <p>
+                            <strong>Join a subreddit</strong> - api/{name}/join GET
+                            Name is represents name of existing subredit.
+                            Response: code 200 - OK
+                            <br>
+                            <strong>Unjoin a subreddit</strong> - api/{name}/unjoin GET
+                            Name is represents name of existing subredit.
+                            Response: code 200 - OK
+                        </p>
+                    </li>
+
+                </ul>
+            </li> <!-- Subreddit END -->
+
+            <li>
+                <h2>Post</h2>
+                <ul>
+                    <li>
+                        <h3>create a post - /api/newpost POST</h3>
+                        <p class="code-text">
+                            Requires json objest with basic fields about the post.
+                            Request:<br>
+                            { <br>
+                            "title": "String",<br>
+                            "content": "String",<br>
+                            "subreddit": "String",<br>
+                            }<br>
+                            Response code 201 - created.
+                        </p>
+                    </li>
+                    <li>
+                        <h3>get a post - /api/post/{id} GET</h3>
+                        <p class="code-text">
+                            Id represents id of the post.
+                            Response:<br>
+                            {<br>
+                            "id": "int",<br>
+                            "title": "String",<br>
+                            "content": "content",<br>
+                            "user": "String",<br>
+                            "subreddit": "String",<br>
+                            "commentCount": "int",<br>
+                            "duration": "String",<br>
+                            "voteCount": "int"<br>
+                            }
+                        </p>
+                    </li>
+                    <li>
+                        <h3> edit a post - /api/editpost - POST</h3>
+                        <p>
+                            Client provides new content for a post with certain id.
+                        </p>
+                        <p class="code-text">
+                            Requires:<br>
+                            {<br>
+                            "id": int,<br>
+                            "content": "String"<br>
+                            }
+                        </p>
+                    </li>
+                    <li>
+                        <h3> delete a post - /api/deletepost/{id} DELETE</h3>
+                        <p>
+                            Deletes a post with given id.
+                        </p>
+                    </li>
+                    <li>
+                        <h3> get posts for a subreddit sort by vote - /api/posts/r/{subreddit} GET</h3>
+                        <p>
+                            Subreddit is name of a existing subreddit. Returns 20 posts sorted by vote desc in given
+                            timeframe.
+                            Params: page (0,1,2...), and filter that can have values: today, week, month, year, alltime.
+                        </p>
+                        <p class="code-text">
+                            Response:<br>
+                            { [<br>
+                            "id": "int",<br>
+                            "title": "String",<br>
+                            "content": "content",<br>
+                            "user": "String",<br>
+                            "subreddit": "String",<br>
+                            "commentCount": "int", <br>
+                            "duration": "String", <br>
+                            "voteCount": "int" <br>
+                            ]}
+                        </p>
+                    </li>
+                    <li>
+                        <h3> Get posts for a subreddit sort by latest - /posts/r/{subreddit}/new GET</h3>
+                        <p>
+                            Subreddit represents name of a existing subreddit.
+                        </p>
+                        <p class="code-text">
+                            Response:<br>
+                            { [ <br>
+                            "id": "int",<br>
+                            "title": "String",<br>
+                            "content": "content",<br>
+                            "user": "String",<br>
+                            "subreddit": "String",<br>
+                            "commentCount": "int",<br>
+                            "duration": "String",<br>
+                            "voteCount": "int"<br>
+                            ]}
+
+                        </p>
+                    </li>
+                    <li>
+                        <h3> Comment</h3>
+                        <p>
+                            create a new comment - /api/newcomment POST
+                        </p>
+                        <p class="code-text">
+
+                            Request:<br>
+                            {<br>
+                            "postId": "String",<br>
+                            "content": "String"<br>
+                            }<br>
+                            Response: code 201 - created.
+
+                        </p>
+                    </li>
+                    <li>
+                        <h3> get comments for a post - /api/comments/{postId} GET</h3>
+                        <p>
+                            PostId is associeted with id of the post.
+                        </p>
+                        <p class="code-text">
+                            Response:<br>
+                            { [<br>
+                            "content": "String",<br>
+                            "user": "String",<br>
+                            "postId": "int"<br>
+                            ] }
+                        </p>
+                    </li>
+                    <li>
+                        <h3> Vote</h3>
+                        <p>
+                            vote for a post or comment - "/api/vote" POST
+                        </p>
+                        <p class="code-text">
+                            Request:<br>
+                            {<br>
+                            "voteType": "UPVOTE/DOWNVOTE"<br>
+                            "voteObject": "POST/COMMENT"<br>
+                            "id": "int"<br>
+                            }
+                        </p>
+                    </li>
+                </ul>
+            </li><!-- Post END -->
+
+            <li>
+                <h2>User</h2>
+                <ul>
+                    <li>
+                        <h3> set image for a user - "/api/user/setimage" POST</h3>
+                        <p> Requires multipart file with key "image". Only jpg/png/jpeg acceptable.</p>
+                    </li>
+                    <li>
+                        <h3> Get user by username - "/api/user/{username}" GET </h3>
+                        <p class="code-text">
+                            Response:<br>
+
+                            {<br>
+                            "username": "String",<br>
+                            "firstName": "String",<br>
+                            "lastName": "String",<br>
+                            "email": "String",<br>
+                            "image": "String",<br>
+                            "cakeDay": "String",<br>
+                            "joinedSubs": [<br>
+                            "name": "String",<br>
+                            "description", "String"<br>
+                            "owner": "String",<br>
+                            "memberCount": "int"<br>
+                            ] }
+
+                        </p>
+                    </li>
+                    <li>
+                        <h3>Get currently logged in user "/api/user/" GET</h3>
+                        <p class="code-text">
+                            Response:<br>
+                            {<br>
+                            "username": "String",<br>
+                            "firstName": "String",<br>
+                            "lastName": "String",<br>
+                            "email": "String",<br>
+                            "image": "String",<br>
+                            "cakeDay": "String",<br>
+                            "joinedSubs": [<br>
+                            "name": "String",<br>
+                            "description", "String"<br>
+                            "owner": "String",<br>
+                            "memberCount": "int"<br>
+                            ] }
+                        </p>
+                    </li>
+                    <li>
+                        <h3> Chat system with websockets </h3>
+                        <p>
+                            /ws - endpoint for the handshake<br>
+                            /app/chat - message processing endpoint with payload message<br>
+                            /user/{recipientId}/queue/messages - destination used to send messages<br>
+
+                            message payload:<br>
+                        </p>
+                        <p class="code-text">
+                            {<br>
+                            "id": "String",<br>
+                            "chatId": "String",<br>
+                            "senderId": "String",<br>
+                            "recipientId": "String",<br>
+                            "senderName": "String",<br>
+                            "recipientName": "String",<br>
+                            "content": "String",<br>
+                            "date": "String",<br>
+                            "messageStatus": "SENT/DELIVERED/SEEN"<br>
+                            }<br>
+                        </p>
+                        <p>
+                            /messages/{senderId}/{recipientId}/count GET<br>
+                            Returns number of unread messages.
+
+                            /messages/{senderId}/{recipientId}<br>
+                            Returns messages between two entities.
+                        </p>
+                    </li>
+                </ul>
+            </li> <!-- User END -->
+
+        </ul> <!-- doc list END -->
+
+    </main> <!-- MAIN END -->
+
+
+</body>
+
+</html>

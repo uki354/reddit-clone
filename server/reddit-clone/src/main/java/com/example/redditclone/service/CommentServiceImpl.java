@@ -3,6 +3,7 @@ package com.example.redditclone.service;
 import com.example.redditclone.Model.Comment;
 import com.example.redditclone.Model.Post;
 import com.example.redditclone.dto.CommentDTO;
+import com.example.redditclone.exception.RedditCloneException;
 import com.example.redditclone.repository.CommentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +37,11 @@ public class CommentServiceImpl implements CommentService{
     }
 
     @Override
+    public Comment findComment(int id) {
+        return commentRepository.findById(id).orElseThrow(() -> new RedditCloneException("Comment not found"));
+    }
+
+    @Override
     public void createComment(CommentDTO commentDTO) {
         Post post = postService.getPost(commentDTO.getPostId());
         post.setCommentCount(post.getCommentCount() + 1);
@@ -43,6 +49,10 @@ public class CommentServiceImpl implements CommentService{
         commentRepository.save(mapToComment(commentDTO));
     }
 
+    @Override
+    public void saveComment(Comment comment) {
+        commentRepository.save(comment);
+    }
 
     private Comment mapToComment(CommentDTO commentDTO){
         Post post = postService.getPost(commentDTO.getPostId());
