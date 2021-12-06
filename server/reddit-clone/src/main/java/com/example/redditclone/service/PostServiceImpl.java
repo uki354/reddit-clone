@@ -135,7 +135,6 @@ public class PostServiceImpl implements PostService{
 
         Pageable pageable = PageRequest.of(page,20,Sort.by(checkSort(sort)).descending());
         User user = userService.findUser(username);
-        List<Post> posts = postRepository.findAllByUser(user, pageable);
         List<Post> postList = postRepository.findAllByUserAndCreatedAtBetween(user, dateUtility.firstDayOfWeek(), dateUtility.lastDayOfWeek());
         return postList.stream().map(this::mapToPostDTO).collect(Collectors.toList());
     }

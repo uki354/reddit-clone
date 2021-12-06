@@ -51,7 +51,7 @@ public class AuthService {
         user.setRoles(new ArrayList<>());
         user.getRoles().add(roleService.getUserRole());
 
-        System.out.println("where's problem?");
+
         userRepository.save(user);
         
         String token = generateVerificationToken(user);
