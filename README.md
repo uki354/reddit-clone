@@ -9,5 +9,7 @@ Initial request can take up to 20 seconds to load due to free instance Heroku se
 
 API covers most needs one social-network application can have. Such as authentication & authorization, CRUD operations for every entity app have (posts,comments,users,votes...).
 
+API also uses Web Sockets for simple chat system to cover user's comunication.
+
 Full custom documentation for the API is hosted as well as swagger one: https://rest-reddit-clone.herokuapp.com/api/auth/documentation
 
